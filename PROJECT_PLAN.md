@@ -704,98 +704,137 @@ Ajouté à la library avec le rôle
 
 ## Phases de développement
 
-### Phase 0: Setup (2h)
+> **Statut actuel**: Phase 4 terminée + optimisations performances Linear-like
+
+### Phase 0: Setup ✅
 
 ```
 Objectif: Projet Next.js fonctionnel
 
 Tasks:
-- [ ] bunx create-next-app@latest pxp-components
-- [ ] Configurer TypeScript strict
-- [ ] Installer shadcn/ui + Tailwind
-- [ ] Installer Motion
-- [ ] Structure de dossiers
-- [ ] Setup .env.example
-- [ ] Git init
+- [x] bunx create-next-app@latest pxp-components
+- [x] Configurer TypeScript strict
+- [x] Installer shadcn/ui + Tailwind
+- [x] Installer Motion
+- [x] Structure de dossiers
+- [x] Setup .env.example
+- [x] Git init
 
 Validation:
-- [ ] bun dev fonctionne
-- [ ] bun build passe
+- [x] bun dev fonctionne
+- [x] bun build passe
 ```
 
-### Phase 1: Database (2h)
+### Phase 1: Database ✅
 
 ```
 Objectif: Schema Drizzle connecté à Neon
 
 Tasks:
-- [ ] Installer Drizzle ORM
-- [ ] Créer le schema complet
-- [ ] Configurer Neon (créer projet)
-- [ ] Push schema
+- [x] Installer Drizzle ORM
+- [x] Créer le schema complet (users, sessions, accounts, verifications, libraries, libraryMembers, libraryInvites, categories, components, favorites)
+- [x] Configurer Neon (créer projet)
+- [x] Setup scripts DB (push, studio, generate, migrate)
+- [ ] Push schema (à faire quand DATABASE_URL configuré)
 - [ ] Seed catégories par défaut
-- [ ] Tester avec Drizzle Studio
 
 Validation:
 - [ ] bun db:studio montre les tables
 - [ ] Seed exécuté
 ```
 
-### Phase 2: Auth Better Auth (3h)
+### Phase 2: Auth Better Auth ✅
 
 ```
 Objectif: Auth fonctionnelle
 
 Tasks:
-- [ ] Installer Better Auth
-- [ ] Configurer providers (Google OAuth)
-- [ ] Middleware routes protégées
-- [ ] Pages login
-- [ ] Webhook user created → créer User + Library + Membership OWNER
-- [ ] Helper getCurrentUser() avec rôle
+- [x] Installer Better Auth
+- [x] Configurer providers (Google OAuth)
+- [x] API route /api/auth/[...all]
+- [x] Auth client (signIn, signOut, signUp, useSession)
+- [x] Middleware routes protégées
+- [x] Page login (app/(auth)/login)
+- [x] Helper getCurrentUser() avec rôle (src/lib/auth-utils.ts)
+- [x] Helpers hasPermission(), requireAuth(), requireRole()
+
+Décisions:
+- App privée: pas de signup public, accès par invitation uniquement
+- Single library MVP: pas de création auto de library à l'inscription
+- Les invités rejoignent la library existante via /invite/[token]
+- Le owner créera sa library + membership manuellement (seed ou admin)
 
 Validation:
-- [ ] Login fonctionne
-- [ ] User créé en DB avec Library
-- [ ] Rôle OWNER assigné
+- [x] Middleware protège les routes
+- [x] Login page fonctionnelle
+- [ ] Test complet avec DB (nécessite DATABASE_URL)
 ```
 
-### Phase 3: Layout App (3h)
+### Phase 3: Layout App 🟡 (responsive reporté)
 
 ```
 Objectif: Shell de l'app avec navigation
 
 Tasks:
-- [ ] Layout avec header + sidebar
-- [ ] Header: logo, searchbar, ⌘K button, + New, user menu
-- [ ] Sidebar: Home, Categories list, Favorites, Settings
-- [ ] User menu: profile, settings, sign out
-- [ ] Responsive (sidebar drawer mobile)
-- [ ] Theme switcher
+- [x] Layout avec header + sidebar
+- [x] Header: breadcrumbs, searchbar trigger, + New button
+- [x] Sidebar: Home (The Vault), Categories list (accordion), Favorites, Settings
+- [x] User menu intégré dans dropdown logo (Settings, Invite members, Sign out)
+- [x] Theme switcher (next-themes)
+- [x] Icons personnalisées (components/icons/)
+- [ ] Responsive (sidebar drawer mobile) → REPORTÉ
 
 Validation:
-- [ ] Navigation fonctionne
-- [ ] Responsive OK
-- [ ] Theme OK
+- [x] Navigation fonctionne
+- [ ] Responsive OK → REPORTÉ
+- [x] Theme OK
+
+Décision: Le responsive mobile sera fait plus tard pour se concentrer sur les features core.
 ```
 
-### Phase 4: Categories CRUD (2h)
+### Phase 4: Categories CRUD ✅
 
 ```
 Objectif: Gestion des catégories
 
 Tasks:
-- [ ] Page /settings/categories
-- [ ] Liste avec couleur et count
-- [ ] Modal création
-- [ ] Modal édition
-- [ ] Suppression avec confirmation
-- [ ] API routes protégées (Admin+)
-- [ ] Sidebar dynamique avec catégories
+- [x] Page /settings/categories
+- [x] Liste avec couleur et count
+- [x] Modal création
+- [x] Modal édition
+- [x] Suppression avec confirmation
+- [x] API routes protégées (Admin+)
+- [x] Sidebar dynamique avec catégories
 
 Validation:
-- [ ] CRUD complet
-- [ ] Viewer ne peut pas accéder
+- [x] CRUD complet
+- [x] Viewer ne peut pas accéder
+```
+
+### Phase 3.5: Performance Linear-like ✅
+
+```
+Objectif: Navigation instantanée style Linear
+
+Tasks:
+- [x] TanStack Query pour caching client-side
+- [x] AppLoader pour précharger données au démarrage
+- [x] Middleware léger avec getSessionCookie (pas d'appel HTTP)
+- [x] React.cache() sur getCurrentUser() et getCategories()
+- [x] Pages settings en client components avec hooks
+- [x] API GET /api/categories et /api/user/me
+
+Architecture:
+- Premier load: ~1-2s (cold start Neon)
+- Navigations suivantes: ~15-30ms (cache local)
+- Données cachées 5-10 minutes
+- Refetch en background automatique
+
+Fichiers clés:
+- lib/hooks/ - useCurrentUser, useCategories
+- lib/permissions.ts - hasPermission (client-safe)
+- components/providers/query-provider.tsx
+- components/providers/app-loader.tsx
 ```
 
 ### Phase 5: Uploads (2h)

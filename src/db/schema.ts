@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import {
   pgTable,
   text,
@@ -211,6 +212,65 @@ export const favorites = pgTable(
     ),
   ],
 );
+
+// Relations
+export const usersRelations = relations(users, ({ many }) => ({
+  libraryMembers: many(libraryMembers),
+  components: many(components),
+  favorites: many(favorites),
+}));
+
+export const librariesRelations = relations(libraries, ({ many }) => ({
+  members: many(libraryMembers),
+  categories: many(categories),
+  components: many(components),
+}));
+
+export const libraryMembersRelations = relations(libraryMembers, ({ one }) => ({
+  user: one(users, {
+    fields: [libraryMembers.userId],
+    references: [users.id],
+  }),
+  library: one(libraries, {
+    fields: [libraryMembers.libraryId],
+    references: [libraries.id],
+  }),
+}));
+
+export const categoriesRelations = relations(categories, ({ one, many }) => ({
+  library: one(libraries, {
+    fields: [categories.libraryId],
+    references: [libraries.id],
+  }),
+  components: many(components),
+}));
+
+export const componentsRelations = relations(components, ({ one, many }) => ({
+  library: one(libraries, {
+    fields: [components.libraryId],
+    references: [libraries.id],
+  }),
+  category: one(categories, {
+    fields: [components.categoryId],
+    references: [categories.id],
+  }),
+  createdBy: one(users, {
+    fields: [components.createdById],
+    references: [users.id],
+  }),
+  favorites: many(favorites),
+}));
+
+export const favoritesRelations = relations(favorites, ({ one }) => ({
+  user: one(users, {
+    fields: [favorites.userId],
+    references: [users.id],
+  }),
+  component: one(components, {
+    fields: [favorites.componentId],
+    references: [components.id],
+  }),
+}));
 
 // Types exports
 export type User = typeof users.$inferSelect;

@@ -28,6 +28,17 @@ export const auth = betterAuth({
       maxAge: 60 * 5, // 5 minutes
     },
   },
+  user: {
+    additionalFields: {
+      username: {
+        type: "string",
+        required: false,
+      },
+    },
+  },
+  // Note: Users join via invitation only
+  // The invitation flow handles adding users to the library with the correct role
+  // No automatic library creation - this is a single-library MVP
 });
 
 export type Session = typeof auth.$Infer.Session;

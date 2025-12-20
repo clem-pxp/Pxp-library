@@ -2,6 +2,16 @@
 
 Bibliothèque de composants Webflow avec gestion multi-utilisateurs.
 
+> **Plan du projet** : Voir [PROJECT_PLAN.md](./PROJECT_PLAN.md) pour les specs complètes et les phases de développement.
+
+## Règles de développement
+
+**IMPORTANT**: Toujours mettre à jour PROJECT_PLAN.md au fur et à mesure de l'avancement:
+- Cocher les tâches complétées `[x]`
+- Mettre à jour le "Statut actuel" en haut de la section Phases
+- Documenter les décisions prises (ex: features reportées)
+- Ajouter des notes si le scope change
+
 ## Tech Stack
 
 | Catégorie | Technologie |
@@ -82,20 +92,51 @@ function hasPermission(userRole: Role, requiredRole: Role): boolean {
 
 ## Key Patterns
 
+### Performance (Linear-like)
+
+L'app utilise une architecture optimisée pour des navigations instantanées :
+
+1. **TanStack Query** pour le caching client-side
+   - Données cachées pendant 5-10 minutes
+   - Navigation instantanée depuis le cache
+   - Refetch en background
+
+2. **AppLoader** charge les données au démarrage
+   - `currentUser` et `categories` préchargés
+   - Premier load ~1-2s, navigations suivantes ~15ms
+
+3. **Middleware léger** avec `getSessionCookie`
+   - Vérifie le cookie de session (synchrone)
+   - Pas d'appel HTTP/DB dans le middleware
+
+4. **Fonctions cachées** avec `React.cache()`
+   - `getCurrentUser()` et `getCategories()` wrappés
+   - Une seule requête DB par render
+
+```typescript
+// Utiliser les hooks client pour les données
+import { useCurrentUser, useCategories } from "@/lib/hooks";
+
+// Pour les permissions client-side
+import { hasPermission } from "@/lib/permissions";
+```
+
 ### API Routes
 - Valider avec Zod
 - Vérifier auth + permissions server-side
 - Retourner `{ data }` ou `{ error }`
 
 ### Components
-- Server Components par défaut
-- `'use client'` seulement si nécessaire (interactivité, hooks)
-- Utiliser shadcn/ui components
+- Pages = Client Components avec hooks TanStack Query
+- Shell/Layout = Server Components (statique)
+- **Toujours utiliser shadcn/ui** quand un composant existe
+- Composer les composants shadcn plutôt que créer from scratch
 
 ### Database
 - IDs: utiliser `nanoid()` ou `crypto.randomUUID()`
 - Timestamps: toujours `createdAt` et `updatedAt`
 - Relations: cascade delete pour les dépendances
+- Utiliser `sql\`count(*)\`` au lieu de charger toutes les relations
 
 ### Code Style
 - Prefer named exports
