@@ -1,6 +1,6 @@
 "use client";
 
-import { Search } from "@/components/icons/Search";
+import { Search } from "@/components/icons";
 
 interface SearchBarProps {
   className?: string;

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Sidebar } from "./sidebar";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
-import { SideToggle } from "@/components/icons/SideToggle";
+import { SideToggle } from "@/components/icons";
 import { cn } from "@/lib/utils";
 
 interface AppLayoutProps {

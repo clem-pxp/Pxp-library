@@ -13,9 +13,9 @@ export default function HomePage() {
         </div>
 
         {/* Empty state - will be replaced with component grid */}
-        <div className="flex py-16 flex-col items-center justify-center rounded-xl border border-dashed border-border-base p-8 text-center bg-gray-100">
+        <div className="flex py-16 flex-col items-center justify-center rounded-24 border border-dashed border-border-base p-8 text-center bg-gray-100">
           <h3 className="mb-3 text-base text-soft">No components yet</h3>
-          <Button size="large" structure="keyboard">
+          <Button size="large" layout="keyboard">
             Create your first component
             <div className="px-1 py-[0.125rem] rounded-4 bg-light/10 text-[0.625rem] font-medium leading-tight">C</div>
           </Button>

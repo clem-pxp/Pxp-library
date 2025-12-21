@@ -12,6 +12,7 @@ const updateCategorySchema = z.object({
     .regex(/^#[0-9A-Fa-f]{6}$/, "Invalid color format")
     .optional(),
   icon: z.string().optional(),
+  status: z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]).optional(),
   order: z.number().optional(),
 });
 

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { nanoid } from "nanoid";
 import { z } from "zod";
 import { eq, sql, asc } from "drizzle-orm";
-import { db, categories, components } from "@/src/db";
+import { db, categories, components, users } from "@/src/db";
 import { requireRole, getCurrentUser } from "@/src/lib/auth-utils";
 
 export async function GET() {
@@ -20,16 +20,41 @@ export async function GET() {
         slug: categories.slug,
         color: categories.color,
         icon: categories.icon,
+        status: categories.status,
         order: categories.order,
         componentCount: sql<number>`count(${components.id})::int`,
+        createdAt: categories.createdAt,
+        creatorId: users.id,
+        creatorUsername: users.username,
+        creatorAvatarUrl: users.avatarUrl,
       })
       .from(categories)
       .leftJoin(components, eq(components.categoryId, categories.id))
+      .leftJoin(users, eq(users.id, categories.createdById))
       .where(eq(categories.libraryId, user.libraryId))
-      .groupBy(categories.id)
+      .groupBy(categories.id, users.id, users.username, users.avatarUrl)
       .orderBy(asc(categories.order));
 
-    return NextResponse.json({ data: result });
+    const data = result.map((row) => ({
+      id: row.id,
+      name: row.name,
+      slug: row.slug,
+      color: row.color,
+      icon: row.icon,
+      status: row.status,
+      order: row.order,
+      componentCount: row.componentCount,
+      createdAt: row.createdAt,
+      createdBy: row.creatorId
+        ? {
+            id: row.creatorId,
+            username: row.creatorUsername,
+            avatarUrl: row.creatorAvatarUrl,
+          }
+        : null,
+    }));
+
+    return NextResponse.json({ data });
   } catch (error) {
     console.error("Error fetching categories:", error);
     return NextResponse.json(
@@ -44,6 +69,7 @@ const createCategorySchema = z.object({
   slug: z.string().min(1, "Slug is required"),
   color: z.string().regex(/^#[0-9A-Fa-f]{6}$/, "Invalid color format"),
   icon: z.string().optional(),
+  status: z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]).optional(),
 });
 
 export async function POST(request: Request) {
@@ -79,8 +105,10 @@ export async function POST(request: Request) {
       slug: data.slug,
       color: data.color,
       icon: data.icon || null,
+      status: data.status || "PUBLISHED",
       order: maxOrder + 1,
       libraryId: user.libraryId,
+      createdById: user.id,
     });
 
     const category = await db.query.categories.findFirst({

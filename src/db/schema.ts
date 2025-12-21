@@ -12,6 +12,11 @@ import {
 
 // Enums
 export const roleEnum = pgEnum("role", ["OWNER", "ADMIN", "BUILDER", "VIEWER"]);
+export const categoryStatusEnum = pgEnum("category_status", [
+  "DRAFT",
+  "PUBLISHED",
+  "ARCHIVED",
+]);
 
 // Users
 export const users = pgTable("users", {
@@ -124,10 +129,12 @@ export const categories = pgTable(
     slug: text("slug").notNull(),
     color: text("color").notNull().default("#6366f1"),
     icon: text("icon"),
+    status: categoryStatusEnum("status").notNull().default("PUBLISHED"),
     order: integer("order").notNull().default(0),
     libraryId: text("library_id")
       .notNull()
       .references(() => libraries.id, { onDelete: "cascade" }),
+    createdById: text("created_by_id").references(() => users.id),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at").defaultNow().notNull(),
   },
@@ -242,6 +249,10 @@ export const categoriesRelations = relations(categories, ({ one, many }) => ({
     fields: [categories.libraryId],
     references: [libraries.id],
   }),
+  createdBy: one(users, {
+    fields: [categories.createdById],
+    references: [users.id],
+  }),
   components: many(components),
 }));
 
@@ -283,3 +294,4 @@ export type Component = typeof components.$inferSelect;
 export type NewComponent = typeof components.$inferInsert;
 export type Favorite = typeof favorites.$inferSelect;
 export type Role = "OWNER" | "ADMIN" | "BUILDER" | "VIEWER";
+export type CategoryStatus = "DRAFT" | "PUBLISHED" | "ARCHIVED";

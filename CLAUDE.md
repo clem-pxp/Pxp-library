@@ -24,8 +24,7 @@ Bibliothèque de composants Webflow avec gestion multi-utilisateurs.
 | Auth | Better Auth |
 | Database | PostgreSQL + Drizzle ORM |
 | DB Hosting | Neon |
-| Storage Images | Uploadthing |
-| Storage Vidéos | Bunny |
+| Storage | Bunny.net (images + vidéos) |
 | Code Editor | Monaco Editor |
 | Code Display | Shiki |
 | Rich Text | Tiptap |
@@ -127,10 +126,55 @@ import { hasPermission } from "@/lib/permissions";
 - Retourner `{ data }` ou `{ error }`
 
 ### Components
-- Pages = Client Components avec hooks TanStack Query
-- Shell/Layout = Server Components (statique)
-- **Toujours utiliser shadcn/ui** quand un composant existe
-- Composer les composants shadcn plutôt que créer from scratch
+
+#### Architecture
+
+```
+components/
+├── index.ts              # Barrel export principal
+├── ui/                   # Primitives shadcn/ui (Button, Input, Dialog...)
+│   └── search-input.tsx  # Composants UI custom basés sur shadcn
+├── icons/                # Icônes SVG custom
+│   └── index.ts          # Export toutes les icônes
+├── illustrations/        # SVG illustrations (thèmes, empty states)
+│   └── index.ts
+├── layout/               # Composants de structure (Header, Sidebar, Shell)
+│   └── index.ts
+├── providers/            # React Context providers
+│   └── index.ts
+├── shared/               # Composants utilitaires réutilisables
+│   └── index.ts
+└── features/             # Composants métier par domaine
+    └── categories/       # Ex: CategoriesList, CategoryModal
+        └── index.ts
+```
+
+#### Conventions
+
+| Dossier | Usage | Exemple |
+|---------|-------|---------|
+| `ui/` | Primitives UI réutilisables partout | `Button`, `SearchInput` |
+| `icons/` | Icônes SVG custom (pas Lucide) | `Search`, `Settings` |
+| `layout/` | Structure de page, navigation | `Header`, `Sidebar` |
+| `features/` | Composants liés à un domaine métier | `CategoriesList` |
+| `shared/` | Utilitaires cross-domain | `ThemeToggle` |
+
+#### Règles
+
+1. **Barrel exports obligatoires** - Chaque dossier a un `index.ts`
+2. **Imports depuis index** - `import { Search, Heart } from "@/components/icons"`
+3. **Pages = minimalistes** - La logique métier dans `features/`, pas dans `app/`
+4. **shadcn first** - Toujours utiliser shadcn/ui si le composant existe
+5. **Composer plutôt que créer** - Étendre shadcn plutôt que from scratch
+
+```typescript
+// ✅ Bon
+import { Search, Settings, Heart } from "@/components/icons";
+import { CategoriesList } from "@/components/features/categories";
+
+// ❌ Mauvais
+import { Search } from "@/components/icons/Search";
+```
 
 ### Database
 - IDs: utiliser `nanoid()` ou `crypto.randomUUID()`

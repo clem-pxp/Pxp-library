@@ -14,13 +14,13 @@ const buttonVariants = cva(
         destructive:
           "shadow-btn bg-red-500 border border-red-400 text-light hover:bg-red-700 hover:border-red-500",
         outline:
-          "border border-border-base bg-main shadow-sm hover:bg-gray-100 text-base",
+          "border border-border-base bg-main hover:bg-gray-100 text-base",
         secondary: "bg-gray-200 text-base hover:bg-gray-300",
         ghost: "hover:bg-gray-100 text-base",
         link: "text-blue-500 underline-offset-4 hover:underline",
       },
       // Structure variants (padding)
-      structure: {
+      layout: {
         default: "px-[0.625rem]",
         keyboard: "pl-2 pr-[0.375rem]",
         icon: "pl-2 pr-[0.625rem]",
@@ -29,13 +29,13 @@ const buttonVariants = cva(
       // Size variants (height)
       size: {
         default: "h-7",
-        sm: "h-6 text-xs",
+        medium: "h-[1.875rem]",
         large: "h-8 rounded-10",
       },
     },
     defaultVariants: {
       color: "blue",
-      structure: "default",
+      layout: "default",
       size: "default",
     },
   },
@@ -44,7 +44,7 @@ const buttonVariants = cva(
 function Button({
   className,
   color = "blue",
-  structure = "default",
+  layout = "default",
   size = "default",
   asChild = false,
   ...props
@@ -58,9 +58,9 @@ function Button({
     <Comp
       data-slot="button"
       data-color={color}
-      data-structure={structure}
+      data-layout={layout}
       data-size={size}
-      className={cn(buttonVariants({ color, structure, size }), className)}
+      className={cn(buttonVariants({ color, layout, size }), className)}
       {...props}
     />
   );

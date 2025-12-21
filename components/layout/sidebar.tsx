@@ -3,9 +3,17 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Settings } from "@/components/icons/Settings";
-import { UserPlus } from "@/components/icons/UserPlus";
-import { Out } from "@/components/icons/Out";
+import {
+  Settings,
+  UserPlus,
+  Out,
+  ThreeDCube,
+  ChevronDown,
+  SideToggle,
+  Vault,
+  Heart,
+  TriangleDown,
+} from "@/components/icons";
 import { AnimatePresence, motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { useCategories } from "@/lib/hooks";
@@ -18,12 +26,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ThreeDCube } from "@/components/icons/ThreeDCube";
-import { ChevronDown } from "@/components/icons/ChevronDown";
-import { SideToggle } from "@/components/icons/SideToggle";
-import { Vault } from "@/components/icons/Vault";
-import { Heart } from "@/components/icons/Heart";
-import { TriangleDown } from "@/components/icons/TriangleDown";
 import { getCategoryIcon } from "@/lib/icons-map";
 import type { CategoryWithCount } from "@/lib/data/categories";
 

@@ -11,6 +11,7 @@ export type CurrentUser = {
   id: string;
   email: string;
   name: string | null;
+  username: string | null;
   avatarUrl: string | null;
   role: Role;
   libraryId: string;
@@ -42,6 +43,7 @@ export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
     id: membership.user.id,
     email: membership.user.email,
     name: membership.user.name,
+    username: membership.user.username,
     avatarUrl: membership.user.avatarUrl,
     role: membership.role as Role,
     libraryId: membership.libraryId,

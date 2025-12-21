@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-import { ChevronRight } from "@/components/icons/ChevronRight";
+import { ChevronRight } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { SearchBar } from "./search-bar";
 
@@ -49,7 +49,7 @@ export function Header({ className, breadcrumbs = [] }: HeaderProps) {
         <SearchBar />
 
         {/* Create New */}
-        <Button asChild structure="icon">
+        <Button asChild layout="icon">
           <Link href="/components/new">
             <Plus className="size-3.5" />
             <span className="hidden sm:inline">New</span>

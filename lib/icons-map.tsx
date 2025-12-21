@@ -1,19 +1,77 @@
-import { BracketsCurly } from "@/components/icons/BracketsCurly";
-import { MouseScroll } from "@/components/icons/MouseScroll";
-import { ButtonCursor } from "@/components/icons/ButtonCursor";
+import {
+  Activity,
+  BracketsCurly,
+  ButtonCursor,
+  Camera,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  Cross,
+  Cube,
+  Enter,
+  FilterOptions,
+  Google,
+  Heart,
+  Info,
+  Layers,
+  Monitor,
+  Moon,
+  MouseScroll,
+  Out,
+  Search,
+  Settings,
+  SideToggle,
+  Sort,
+  Sun,
+  ThreeDCube,
+  TriangleDown,
+  User,
+  UserFill,
+  UserPlus,
+  Users,
+  Vault,
+  VerticalDots,
+  Workspace,
+} from "@/components/icons";
 import { Folder } from "lucide-react";
 
-// Map icon names (stored in DB) to React components
 export const CATEGORY_ICONS: Record<
   string,
   React.ComponentType<{ className?: string }>
 > = {
+  activity: Activity,
   code: BracketsCurly,
-  scroll: MouseScroll,
   pointer: ButtonCursor,
-  form: BracketsCurly, // TODO: créer une icône Form
-  menu: BracketsCurly, // TODO: créer une icône Menu
-  sparkles: BracketsCurly, // TODO: créer une icône Sparkles
+  camera: Camera,
+  "chevron-down": ChevronDown,
+  "chevron-left": ChevronLeft,
+  "chevron-right": ChevronRight,
+  cross: Cross,
+  cube: Cube,
+  enter: Enter,
+  filter: FilterOptions,
+  google: Google,
+  heart: Heart,
+  info: Info,
+  layers: Layers,
+  monitor: Monitor,
+  moon: Moon,
+  scroll: MouseScroll,
+  out: Out,
+  search: Search,
+  settings: Settings,
+  "side-toggle": SideToggle,
+  sort: Sort,
+  sun: Sun,
+  "3d-cube": ThreeDCube,
+  "triangle-down": TriangleDown,
+  user: User,
+  "user-fill": UserFill,
+  "user-plus": UserPlus,
+  users: Users,
+  vault: Vault,
+  "vertical-dots": VerticalDots,
+  workspace: Workspace,
   default: Folder,
 };
 
