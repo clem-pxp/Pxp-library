@@ -26,6 +26,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { getCategoryIcon } from "@/lib/icons-map";
 import type { CategoryWithCount } from "@/lib/data/categories";
 
@@ -82,16 +83,18 @@ export function Sidebar({ className, onToggle }: SidebarProps) {
             </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
-        <button
+        <motion.button
+          layoutId="sidebar-toggle"
+          transition={{ duration: 0.2, ease: [0, 0, 0.58, 1] }}
           onClick={onToggle}
-          className="size-6 flex items-center justify-center rounded-6 bg-light shadow-sm border-border-soft border-[0.5px]"
+          className="size-6 flex cursor-pointer items-center justify-center rounded-6 bg-gray-900/4 border-border-soft border-[0.5px]"
         >
           <SideToggle className="size-4 text-soft" />
-        </button>
+        </motion.button>
       </div>
 
       {/* Navigation */}
-      <div className="flex-1 overflow-y-auto">
+      <ScrollArea className="flex-1 min-h-0">
         <nav className="flex px-[0.875rem] flex-col py-1 gap-1">
           {/* Home */}
           <div className="pb-2">
@@ -112,7 +115,7 @@ export function Sidebar({ className, onToggle }: SidebarProps) {
           {/* Categories Section */}
           <CategoriesAccordion categories={categories} pathname={pathname} />
         </nav>
-      </div>
+      </ScrollArea>
 
       {/* Settings (bottom) */}
       <div className="border-t border-border-soft p-2">
@@ -135,7 +138,13 @@ interface SidebarLinkProps {
   count?: number;
 }
 
-function SidebarLink({ href, icon, label, isActive, count }: SidebarLinkProps) {
+export function SidebarLink({
+  href,
+  icon,
+  label,
+  isActive,
+  count,
+}: SidebarLinkProps) {
   return (
     <Link href={href} className="group block py-[1px]">
       <div

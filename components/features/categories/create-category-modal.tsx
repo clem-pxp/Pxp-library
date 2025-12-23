@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { nanoid } from "nanoid";
 import { Modal, ModalContent } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,37 +14,53 @@ interface CreateCategoryModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSubmit: (category: CategoryWithCount) => void;
+  onSuccess?: (tempId: string, realCategory: CategoryWithCount) => void;
+  onError?: (tempId: string, error: string) => void;
 }
 
 export function CreateCategoryModal({
   open,
   onOpenChange,
   onSubmit,
+  onSuccess,
+  onError,
 }: CreateCategoryModalProps) {
-  const router = useRouter();
   const [name, setName] = useState("");
   const [icon, setIcon] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    setError(null);
+
+    const slug = name
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
+
+    const tempId = `temp-${nanoid()}`;
+    const optimisticCategory: CategoryWithCount = {
+      id: tempId,
+      name,
+      slug,
+      icon: icon || null,
+      status: "PUBLISHED",
+      order: 999,
+      componentCount: 0,
+      createdAt: new Date(),
+      createdBy: null,
+    };
+
+    onSubmit(optimisticCategory);
+    onOpenChange(false);
+    setName("");
+    setIcon("");
 
     try {
-      const slug = name
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-|-$/g, "");
-
       const response = await fetch("/api/categories", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name,
           slug,
-          color: "#6366f1",
           icon,
           status: "PUBLISHED",
         }),
@@ -56,15 +72,12 @@ export function CreateCategoryModal({
       }
 
       const data = await response.json();
-      onSubmit(data.category);
-      router.refresh();
-      onOpenChange(false);
-      setName("");
-      setIcon("");
+      onSuccess?.(tempId, data.category);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong");
-    } finally {
-      setIsLoading(false);
+      onError?.(
+        tempId,
+        err instanceof Error ? err.message : "Something went wrong",
+      );
     }
   };
 
@@ -99,8 +112,6 @@ export function CreateCategoryModal({
                 required
               />
             </div>
-
-            {error && <p className="text-sm text-error-base">{error}</p>}
           </div>
 
           <div className="p-2 flex gap-2 items-center justify-end border-t-1 border-border-base">
@@ -117,12 +128,8 @@ export function CreateCategoryModal({
                 </span>
               </div>
             </Button>
-            <Button
-              type="submit"
-              layout="keyboard"
-              disabled={isLoading || !name.trim()}
-            >
-              {isLoading ? "Creating..." : "Create"}
+            <Button type="submit" layout="keyboard" disabled={!name.trim()}>
+              Create
               <div className="flex items-center justify-center rounded-4 bg-light/10 size-4">
                 <Enter className="size-3" />
               </div>

@@ -9,7 +9,7 @@ interface SearchBarProps {
 export function SearchBar({ className }: SearchBarProps) {
   return (
     <button
-      className={`flex h-7 items-center justify-between gap-8 rounded-full bg-gray-100 border-border-base border-[0.5px] px-2 hover:bg-gray-200 transition-colors ${className}`}
+      className={`flex h-7 items-center justify-between lg:gap-8 gap-1.5 rounded-full bg-gray-100 border-border-base border-[0.5px] px-2 hover:bg-gray-200 transition-colors ${className}`}
       onClick={() => {
         // TODO: Open command palette
       }}
@@ -17,7 +17,7 @@ export function SearchBar({ className }: SearchBarProps) {
       {/* Left: Icon + Text */}
       <div className="flex flex-row items-center gap-1">
         <Search className="size-[0.875rem] text-disabled" />
-        <span className="sub-2xs text-disabled !leading-none">Search</span>
+        <span className="sub-2xs text-disabled !leading-none hidden lg:block">Search</span>
       </div>
 
       {/* Right: Keyboard shortcut */}

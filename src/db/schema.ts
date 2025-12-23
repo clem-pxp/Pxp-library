@@ -127,7 +127,6 @@ export const categories = pgTable(
     id: text("id").primaryKey(),
     name: text("name").notNull(),
     slug: text("slug").notNull(),
-    color: text("color").notNull().default("#6366f1"),
     icon: text("icon"),
     status: categoryStatusEnum("status").notNull().default("PUBLISHED"),
     order: integer("order").notNull().default(0),

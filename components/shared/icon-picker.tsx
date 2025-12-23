@@ -25,24 +25,21 @@ function capitalize(str: string): string {
 }
 
 const AVAILABLE_ICONS = [
-  "activity",
-  "code",
-  "pointer",
-  "camera",
-  "cube",
-  "heart",
-  "info",
-  "layers",
+  "bracket-curly",
+  "mouse-scroll",
+  "buttonCursor",
+  "cursor",
+  "carousel",
   "monitor",
-  "scroll",
-  "search",
-  "settings",
-  "3d-cube",
-  "user",
-  "user-fill",
-  "users",
-  "vault",
-  "workspace",
+  "map",
+  "section",
+  "image",
+  "handPointer",
+  "loader",
+  "expand",
+  "filterTunel",
+  "inputField",
+  "easeInOut",
 ];
 
 export function IconPicker({ value, onChange }: IconPickerProps) {
@@ -69,7 +66,15 @@ export function IconPicker({ value, onChange }: IconPickerProps) {
             open && "border-accent-base",
           )}
         >
-          <Layers className="size-4 text-disabled" />
+          {(() => {
+            const SelectedIcon =
+              value && CATEGORY_ICONS[value] ? CATEGORY_ICONS[value] : Layers;
+            return (
+              <SelectedIcon
+                className={cn("size-4", value ? "text-soft" : "text-disabled")}
+              />
+            );
+          })()}
           <span className={cn(!value && "text-gray-400")}>
             {value ? capitalize(value) : "Select an icon"}
           </span>

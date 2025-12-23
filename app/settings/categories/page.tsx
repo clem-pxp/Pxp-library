@@ -5,20 +5,18 @@ import { useEffect, useState, useMemo } from "react";
 import { Plus } from "lucide-react";
 import { useCurrentUser, useCategories } from "@/lib/hooks";
 import { hasPermission } from "@/lib/permissions";
-import {
-  CategoriesList,
-  CreateCategoryModal,
-} from "@/components/features/categories";
+import { CategoriesList } from "@/components/features/categories";
 import { SearchInput } from "@/components/ui/search-input";
 import { Button } from "@/components/ui/button";
-import { FilterOptions, Sort } from "@/components/icons";
+import { Sort } from "@/components/icons";
 
 export default function CategoriesPage() {
   const router = useRouter();
   const { data: user, isLoading: userLoading } = useCurrentUser();
-  const { data: categories = [], refetch } = useCategories();
+  const { data: categories = [] } = useCategories();
   const [searchQuery, setSearchQuery] = useState("");
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [isReorderOpen, setIsReorderOpen] = useState(false);
 
   const filteredCategories = useMemo(() => {
     if (!searchQuery.trim()) return categories;
@@ -33,11 +31,6 @@ export default function CategoriesPage() {
       router.replace("/settings/preferences");
     }
   }, [user, userLoading, router]);
-
-  const handleCreate = () => {
-    setIsCreateOpen(false);
-    refetch();
-  };
 
   if (userLoading || !user || !hasPermission(user.role, "ADMIN")) {
     return null;
@@ -61,37 +54,38 @@ export default function CategoriesPage() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="min-w-65 !leading-tight"
               />
-              <Button layout="icon" color="outline" size="medium">
-                <FilterOptions className="size-4" />
-                <span className="sub-2xs !leading-none">Filters</span>
-              </Button>
             </div>
             <div className="flex items-center gap-2">
-              <Button layout="icon" color="outline" size="medium">
+              <Button
+                layout="icon"
+                size="xl"
+                color="outline"
+                onClick={() => setIsReorderOpen(true)}
+              >
                 <Sort className="size-4" />
-                <span className="sub-2xs !leading-none">Sort</span>
+                <span className="sub-xs !leading-none">Re-order</span>
               </Button>
               <Button
                 layout="icon"
-                size="medium"
+                size="xl"
                 onClick={() => setIsCreateOpen(true)}
               >
                 <Plus className="size-4" />
-                <span className="sub-2xs !leading-none">Create new</span>
+                <span className="sub-xs !leading-none">Create new</span>
               </Button>
             </div>
           </div>
           <div className="w-full overflow-hidden">
-            <CategoriesList categories={filteredCategories} />
+            <CategoriesList
+              categories={filteredCategories}
+              createModalOpen={isCreateOpen}
+              onCreateModalChange={setIsCreateOpen}
+              reorderModalOpen={isReorderOpen}
+              onReorderModalChange={setIsReorderOpen}
+            />
           </div>
         </div>
       </div>
-
-      <CreateCategoryModal
-        open={isCreateOpen}
-        onOpenChange={setIsCreateOpen}
-        onSubmit={handleCreate}
-      />
     </div>
   );
 }

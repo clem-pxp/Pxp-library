@@ -31,6 +31,7 @@ const buttonVariants = cva(
         default: "h-7",
         medium: "h-[1.875rem]",
         large: "h-8 rounded-10",
+        xl: "h-[2.25rem] rounded-10",
       },
     },
     defaultVariants: {

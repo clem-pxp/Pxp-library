@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" suppressHydrationWarning>
-      <body className="font-sans antialiased bg-app">
+      <body className="font-sans antialiased lg:bg-app bg-main">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

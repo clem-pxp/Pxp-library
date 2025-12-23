@@ -31,21 +31,11 @@ async function seed() {
   // 2. Créer les catégories par défaut
   console.log("📁 Creating default categories...");
   const defaultCategories = [
-    {
-      name: "Utilities & Scripts",
-      slug: "utilities-scripts",
-      icon: "code",
-      color: "#6366F1",
-    },
-    {
-      name: "Scroll Animations",
-      slug: "scroll-animations",
-      icon: "scroll",
-      color: "#8B5CF6",
-    },
-    { name: "Buttons", slug: "buttons", icon: "pointer", color: "#EC4899" },
-    { name: "Forms", slug: "forms", icon: "form", color: "#10B981" },
-    { name: "Navigation", slug: "navigation", icon: "menu", color: "#3B82F6" },
+    { name: "Utilities & Scripts", slug: "utilities-scripts", icon: "code" },
+    { name: "Scroll Animations", slug: "scroll-animations", icon: "scroll" },
+    { name: "Buttons", slug: "buttons", icon: "pointer" },
+    { name: "Forms", slug: "forms", icon: "form" },
+    { name: "Navigation", slug: "navigation", icon: "menu" },
   ];
 
   for (let i = 0; i < defaultCategories.length; i++) {
@@ -55,7 +45,6 @@ async function seed() {
       name: cat.name,
       slug: cat.slug,
       icon: cat.icon,
-      color: cat.color,
       order: i,
       libraryId: libraryId,
     });

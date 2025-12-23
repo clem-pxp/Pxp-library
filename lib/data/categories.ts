@@ -15,7 +15,6 @@ export type CategoryWithCount = {
   id: string;
   name: string;
   slug: string;
-  color: string;
   icon: string | null;
   status: CategoryStatus;
   order: number;
@@ -41,7 +40,6 @@ export const getCategories = cache(
         id: categories.id,
         name: categories.name,
         slug: categories.slug,
-        color: categories.color,
         icon: categories.icon,
         status: categories.status,
         order: categories.order,
@@ -62,7 +60,6 @@ export const getCategories = cache(
       id: row.id,
       name: row.name,
       slug: row.slug,
-      color: row.color,
       icon: row.icon,
       status: row.status,
       order: row.order,

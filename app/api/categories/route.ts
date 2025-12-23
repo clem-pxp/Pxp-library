@@ -18,7 +18,6 @@ export async function GET() {
         id: categories.id,
         name: categories.name,
         slug: categories.slug,
-        color: categories.color,
         icon: categories.icon,
         status: categories.status,
         order: categories.order,
@@ -39,7 +38,6 @@ export async function GET() {
       id: row.id,
       name: row.name,
       slug: row.slug,
-      color: row.color,
       icon: row.icon,
       status: row.status,
       order: row.order,
@@ -67,7 +65,6 @@ export async function GET() {
 const createCategorySchema = z.object({
   name: z.string().min(1, "Name is required"),
   slug: z.string().min(1, "Slug is required"),
-  color: z.string().regex(/^#[0-9A-Fa-f]{6}$/, "Invalid color format"),
   icon: z.string().optional(),
   status: z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]).optional(),
 });
@@ -103,7 +100,6 @@ export async function POST(request: Request) {
       id,
       name: data.name,
       slug: data.slug,
-      color: data.color,
       icon: data.icon || null,
       status: data.status || "PUBLISHED",
       order: maxOrder + 1,
@@ -120,6 +116,11 @@ export async function POST(request: Request) {
       category: {
         ...category,
         componentCount: category?.components?.length || 0,
+        createdBy: {
+          id: user.id,
+          username: user.username,
+          avatarUrl: user.avatarUrl,
+        },
       },
     });
   } catch (error) {
