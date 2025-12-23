@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Reorder, useDragControls } from "motion/react";
 import { Modal, ModalContent } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Cross, Enter, GripVertical } from "@/components/icons";
 import { CATEGORY_ICONS } from "@/lib/icons-map";
 import type { CategoryWithCount } from "@/lib/data/categories";
@@ -98,18 +99,20 @@ function ReorderContent({
         </button>
       </div>
 
-      <div className="pr-4 pl-2.5 py-4 flex flex-col gap-2 max-h-[60vh] overflow-y-auto">
-        <Reorder.Group
-          axis="y"
-          values={orderedCategories}
-          onReorder={setOrderedCategories}
-          className="flex flex-col gap-2"
-        >
-          {orderedCategories.map((category) => (
-            <DraggableCategory key={category.id} category={category} />
-          ))}
-        </Reorder.Group>
-      </div>
+      <ScrollArea className="flex max-h-[60vh] flex-col">
+        <div className="pr-4 pl-2.5 py-4 flex flex-col gap-2">
+          <Reorder.Group
+            axis="y"
+            values={orderedCategories}
+            onReorder={setOrderedCategories}
+            className="flex flex-col gap-2"
+          >
+            {orderedCategories.map((category) => (
+              <DraggableCategory key={category.id} category={category} />
+            ))}
+          </Reorder.Group>
+        </div>
+      </ScrollArea>
 
       <div className="p-2 flex gap-2 items-center justify-end border-t-1 border-border-base">
         <Button
