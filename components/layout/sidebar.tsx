@@ -40,12 +40,16 @@ export function Sidebar({ className, onToggle }: SidebarProps) {
   const { data: categories = [] } = useCategories();
 
   return (
-    <aside className={cn("flex h-full w-[15.25rem] flex-col", className)}>
-      {/* Logo + User Menu */}
-      <div className="flex h-12 items-center pt-2 px-[0.875rem] justify-between w-full">
+    <aside
+      className={cn(
+        "flex h-full w-full lg:w-[15.25rem] flex-col lg:bg-transparent bg-main",
+        className,
+      )}
+    >
+      <div className="flex h-11 lg:h-12 items-center pt-0 lg:pt-2 px-[0.875rem] justify-between w-full border-b-[0.5px] lg:border-b-0 border-border-base">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="flex items-center gap-[0.375rem] px-[0.375rem] hover:opacity-80 transition-opacity">
+            <button className="flex items-center gap-[0.375rem] px-0 lg:px-[0.375rem] hover:opacity-80 transition-opacity">
               <div className="flex size-5 items-center justify-center rounded-6 bg-fade-dark">
                 <ThreeDCube className="size-4 text-light" />
               </div>
@@ -89,13 +93,13 @@ export function Sidebar({ className, onToggle }: SidebarProps) {
           onClick={onToggle}
           className="size-6 flex cursor-pointer items-center justify-center rounded-6 bg-gray-900/4 border-border-soft border-[0.5px]"
         >
-          <SideToggle className="size-4 text-soft" />
+          <SideToggle className="size-4 text-soft" isOpen />
         </motion.button>
       </div>
 
       {/* Navigation */}
       <ScrollArea className="flex-1 min-h-0">
-        <nav className="flex px-[0.875rem] flex-col py-1 gap-1">
+        <nav className="flex px-2 lg:px-[0.875rem] pr-[0.875rem] flex-col py-2 lg:py-1 gap-1">
           {/* Home */}
           <div className="pb-2">
             <SidebarLink
@@ -117,13 +121,13 @@ export function Sidebar({ className, onToggle }: SidebarProps) {
         </nav>
       </ScrollArea>
 
-      {/* Settings (bottom) */}
-      <div className="border-t border-border-soft p-2">
+      <div className="border-t border-border-soft px-2 lg:px-[0.875rem] h-11 lg:h-12 flex items-center">
         <SidebarLink
           href="/settings"
           icon={<Settings className="size-4" />}
           label="Settings"
           isActive={pathname.startsWith("/settings")}
+          className="w-full"
         />
       </div>
     </aside>
@@ -136,6 +140,8 @@ interface SidebarLinkProps {
   label: string;
   isActive?: boolean;
   count?: number;
+  variant?: "default" | "mobile";
+  className?: string;
 }
 
 export function SidebarLink({
@@ -144,14 +150,17 @@ export function SidebarLink({
   label,
   isActive,
   count,
+  variant = "default",
+  className,
 }: SidebarLinkProps) {
   return (
-    <Link href={href} className="group block py-[1px]">
+    <Link href={href} className={cn("group block py-[1px]", className)}>
       <div
         className={cn(
-          "flex h-8 items-center justify-between rounded-8 pl-[0.375rem] pr-1 transition-[color,background-color] duration-50",
+          "flex items-center justify-between rounded-8 pl-[0.375rem] pr-1 transition-[color,background-color] duration-50",
+          variant === "mobile" ? "h-8.5" : "h-8",
           isActive
-            ? "bg-gray-300 text-strong"
+            ? "lg:bg-gray-300 bg-gray-900/5 text-strong"
             : "text-soft hover:bg-gray-300/60",
         )}
       >
@@ -211,7 +220,7 @@ function CategoriesAccordion({
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="overflow-hidden"
           >
-            <div className="flex flex-col pb-2 pl-1">
+            <div className="flex flex-col pb-2 pl-0 lg:pl-1">
               {categories.map((category) => {
                 const Icon = getCategoryIcon(category.icon);
                 return (

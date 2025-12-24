@@ -1,6 +1,11 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useSyncExternalStore,
+} from "react";
 
 interface SidebarContextValue {
   collapsed: boolean;
@@ -10,8 +15,27 @@ interface SidebarContextValue {
 
 const SidebarContext = createContext<SidebarContextValue | null>(null);
 
+function subscribeToMediaQuery(callback: () => void) {
+  const media = window.matchMedia("(min-width: 1024px)");
+  media.addEventListener("change", callback);
+  return () => media.removeEventListener("change", callback);
+}
+
+function getIsDesktop() {
+  return window.matchMedia("(min-width: 1024px)").matches;
+}
+
+function getServerSnapshot() {
+  return false;
+}
+
 export function SidebarProvider({ children }: { children: React.ReactNode }) {
-  const [collapsed, setCollapsed] = useState(false);
+  const isDesktop = useSyncExternalStore(
+    subscribeToMediaQuery,
+    getIsDesktop,
+    getServerSnapshot,
+  );
+  const [collapsed, setCollapsed] = useState(!isDesktop);
 
   return (
     <SidebarContext.Provider
