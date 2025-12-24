@@ -1,14 +1,21 @@
-import { MainLayout } from '@/components/layout';
-import { SearchBar } from '@/components/layout/search-bar';
-import { Button } from '@/components/ui/button';
+import { MainLayout } from "@/components/layout";
+import { SearchBar } from "@/components/layout/search-bar";
+import { Button } from "@/components/ui/button";
+import { Kbd } from "@/components/ui/kbd";
 
 export default function HomePage() {
   return (
-    <MainLayout breadcrumbs={[{ label: 'The Vault', href: '/' }]}>
+    <MainLayout
+      breadcrumbs={[{ label: "The Vault", href: "/", icon: "vault" }]}
+    >
       <div className="px-8 py-6">
         <div className="mb-15 pt-10">
-          <h1 className="sub-3xl text-strong text-center">Good afternoon, PxP!</h1>
-          <p className="mt-1 text-sm text-disabled text-center mb-6">Welcome back to the Vault 👋</p>
+          <h1 className="sub-3xl text-strong text-center">
+            Good afternoon, PxP!
+          </h1>
+          <p className="mt-1 text-sm text-disabled text-center mb-6">
+            Welcome back to the Vault 👋
+          </p>
           <SearchBar className="mx-auto w-full max-w-75" />
         </div>
 
@@ -17,7 +24,7 @@ export default function HomePage() {
           <h3 className="mb-3 text-base text-soft">No components yet</h3>
           <Button size="large" layout="keyboard">
             Create your first component
-            <div className="px-1 py-[0.125rem] rounded-4 bg-light/10 text-[0.625rem] font-medium leading-tight">C</div>
+            <Kbd>C</Kbd>
           </Button>
         </div>
       </div>

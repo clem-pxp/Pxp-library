@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { QueryProvider } from "@/components/providers/query-provider";
+import { CommandPaletteProvider } from "@/components/providers/command-palette-provider";
 import { AppLoader } from "@/components/providers/app-loader";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
@@ -26,7 +27,7 @@ export default function RootLayout({
         >
           <QueryProvider>
             <AppLoader>
-              {children}
+              <CommandPaletteProvider>{children}</CommandPaletteProvider>
               <Toaster />
             </AppLoader>
           </QueryProvider>

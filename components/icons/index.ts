@@ -1,4 +1,7 @@
 export { Activity } from "./Activity";
+export { ArrowDown } from "./ArrowDown";
+export { ArrowEnter } from "./ArrowEnter";
+export { ArrowUp } from "./ArrowUp";
 export { BlockQuote } from "./BlockQuote";
 export { Bold } from "./Bold";
 export { BracketsCurly } from "./BracketsCurly";

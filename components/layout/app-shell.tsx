@@ -79,7 +79,7 @@ function SidebarWrapper() {
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
             transition={{ duration: 0.3, ease: [0.32, 0.72, 0, 1] }}
-            className="fixed inset-y-0 left-0 z-50 w-[70%]"
+            className="fixed inset-y-0 left-0 z-50 w-[70%] min-w-[15.25rem] max-w-[18.75rem]"
           >
             <Sidebar
               className="border-r border-border-base"

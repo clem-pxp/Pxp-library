@@ -4,3 +4,4 @@ export { MainLayout } from "./main-layout";
 export { Sidebar } from "./sidebar";
 export { SettingsShell } from "./settings-shell";
 export { SettingsSidebar } from "./settings-sidebar";
+export { SettingsMobileHeader } from "./settings-mobile-header";

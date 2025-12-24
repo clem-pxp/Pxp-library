@@ -19,7 +19,7 @@ Bibliothèque de composants Webflow avec gestion multi-utilisateurs.
 | Runtime | Bun |
 | Framework | Next.js 15 (App Router) |
 | Language | TypeScript (strict) |
-| Styling | Tailwind CSS + shadcn/ui |
+| Styling | Tailwind CSS + Coss UI (Base UI) |
 | Animations | Motion (Framer Motion) |
 | Auth | Better Auth |
 | Database | PostgreSQL + Drizzle ORM |
@@ -132,8 +132,8 @@ import { hasPermission } from "@/lib/permissions";
 ```
 components/
 ├── index.ts              # Barrel export principal
-├── ui/                   # Primitives shadcn/ui (Button, Input, Dialog...)
-│   └── search-input.tsx  # Composants UI custom basés sur shadcn
+├── ui/                   # Primitives Coss UI (Button, Input, Dialog...)
+│   └── search-input.tsx  # Composants UI custom basés sur Coss UI
 ├── icons/                # Icônes SVG custom
 │   └── index.ts          # Export toutes les icônes
 ├── illustrations/        # SVG illustrations (thèmes, empty states)
@@ -164,8 +164,8 @@ components/
 1. **Barrel exports obligatoires** - Chaque dossier a un `index.ts`
 2. **Imports depuis index** - `import { Search, Heart } from "@/components/icons"`
 3. **Pages = minimalistes** - La logique métier dans `features/`, pas dans `app/`
-4. **shadcn first** - Toujours utiliser shadcn/ui si le composant existe
-5. **Composer plutôt que créer** - Étendre shadcn plutôt que from scratch
+4. **Coss UI first** - Toujours utiliser Coss UI (basé sur Base UI) si le composant existe
+5. **Composer plutôt que créer** - Étendre Coss UI plutôt que from scratch
 
 ```typescript
 // ✅ Bon
@@ -186,6 +186,10 @@ import { Search } from "@/components/icons/Search";
 - Prefer named exports
 - Use absolute imports `@/`
 - Error handling: try/catch avec messages explicites
+
+### Responsive Design
+- **Mobile** = `< lg` breakpoint (< 1024px) - utilise `useIsDesktop()` hook
+- **Desktop** = `>= lg` breakpoint (>= 1024px)
 
 ## Don'ts
 

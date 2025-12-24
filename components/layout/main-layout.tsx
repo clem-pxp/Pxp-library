@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 interface BreadcrumbItem {
   label: string;
   href: string;
+  icon?: "vault";
 }
 
 interface MainLayoutProps {

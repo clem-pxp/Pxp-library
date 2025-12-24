@@ -1,4 +1,5 @@
 import { SettingsShell } from "@/components/layout";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function SettingsLayout({
   children,
@@ -7,11 +8,9 @@ export default function SettingsLayout({
 }) {
   return (
     <SettingsShell>
-      <div className="h-full flex-1 p-2 flex w-full">
-        <div className="h-full rounded-8 bg-main border-[0.5px] border-border-base shadow-sm flex w-full overflow-hidden">
-          <div className="flex-1 overflow-y-auto overflow-x-hidden">
-            {children}
-          </div>
+      <div className="h-full flex-1 lg:py-2 lg:pr-2 py-0 pl-0 flex w-full">
+        <div className="h-full lg:rounded-8 bg-main lg:border-[0.5px] lg:border-border-base lg:shadow-sm flex w-full overflow-hidden">
+          <ScrollArea className="flex-1">{children}</ScrollArea>
         </div>
       </div>
     </SettingsShell>

@@ -97,26 +97,26 @@ export default function ProfilePage() {
     : user.email[0].toUpperCase();
 
   return (
-    <div className="py-20 px-20">
+    <div className="lg:py-20 py-8 lg:px-20 px-5">
       <div className="mx-auto w-full max-w-[48rem]">
         <div className="flex flex-col">
-          <div className="mb-8">
-            <h1 className="sub-3xl text-strong">Profile</h1>
-            <p className="mt-1 text-sm text-soft">
+          <div className="lg:mb-8 mb-6">
+            <h1 className="lg:sub-3xl sub-2xl text-strong">Profile</h1>
+            <p className="mt-1 lg:text-sm text-xs text-soft">
               Manage your personal information
             </p>
           </div>
-          <div className="w-full h-[1px] bg-border-soft mb-10"></div>
+          <div className="w-full h-[1px] bg-border-soft lg:mb-10 mb-8"></div>
 
-          <div className="flex items-center gap-4 mb-10">
-            <Avatar className="size-18 rounded-full overflow-hidden shrink-0">
+          <div className="flex items-center lg:gap-4 gap-3 lg:mb-10 mb-6">
+            <Avatar className="lg:size-18 size-14 rounded-full overflow-hidden shrink-0">
               <AvatarImage src={user.avatarUrl || undefined} />
               <AvatarFallback className="sub-3xl">{initials}</AvatarFallback>
             </Avatar>
             <div className="flex flex-col gap-2 w-full">
               <div className="flex flex-col">
                 <p className="sub-sm text-strong">{user.name || "No name"}</p>
-                <p className="text-2xs text-soft font-book">
+                <p className="text-2xs text-soft font-book hidden lg:block">
                   We only support PNGs and JPEGs under 1MB
                 </p>
               </div>
@@ -142,7 +142,7 @@ export default function ProfilePage() {
           </div>
 
           <div className="bg-light border-[0.5px] border-border-soft rounded-18">
-            <div className="px-4 py-3 flex items-center justify-between gap-4 min-h-15">
+            <div className="px-4 py-4 lg:py-3 lg:flex-row flex-col items-stretch flex lg:items-center justify-between lg:gap-4 gap-2 min-h-15">
               <div className="flex flex-col gap-1">
                 <p className="sub-xs text-base">Email</p>
               </div>
@@ -151,7 +151,7 @@ export default function ProfilePage() {
               </div>
             </div>
             <div className="w-full h-[0.5px] bg-border-soft"></div>
-            <div className="px-4 py-3 flex items-center justify-between gap-4 min-h-15">
+            <div className="px-4 py-4 lg:py-3 lg:flex-row flex-col items-stretch flex lg:items-center justify-between lg:gap-4 gap-2 min-h-15">
               <div className="flex flex-col gap-1">
                 <p className="sub-xs text-base">Full name</p>
               </div>
@@ -166,7 +166,7 @@ export default function ProfilePage() {
               </div>
             </div>
             <div className="w-full h-[0.5px] bg-border-soft"></div>
-            <div className="px-4 py-3 flex items-center justify-between gap-4 min-h-15">
+            <div className="px-4 py-4 lg:py-3 lg:flex-row flex-col items-stretch flex lg:items-center justify-between lg:gap-4 gap-2 min-h-15">
               <div className="flex flex-col gap-1">
                 <p className="sub-xs text-base">Username</p>
                 <p className="text-2xs text-soft">

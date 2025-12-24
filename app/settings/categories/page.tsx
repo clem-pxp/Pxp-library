@@ -37,12 +37,12 @@ export default function CategoriesPage() {
   }
 
   return (
-    <div className="xl:py-20 py-10">
+    <div className="lg:py-20 py-8">
       <div className="w-full">
         <div className="flex flex-col gap-8">
-          <div className="xl:px-14 px-5 xl:mb-10 mb-5">
-            <h1 className="sub-3xl text-strong">Categories</h1>
-            <p className="mt-1 text-sm text-soft">
+          <div className="lg:px-14 px-5 lg:mb-10 mb-5">
+            <h1 className="lg:sub-3xl sub-2xl text-strong">Categories</h1>
+            <p className="mt-1 lg:text-sm text-xs text-soft">
               Manage your component categories
             </p>
           </div>

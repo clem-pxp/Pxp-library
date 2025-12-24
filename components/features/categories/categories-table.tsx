@@ -9,8 +9,8 @@ import {
   type RowSelectionState,
 } from "@tanstack/react-table";
 import Image from "next/image";
-import { MoreHorizontal, Activity, Pencil, Trash2 } from "lucide-react";
-import { Cube, Calendar, UserPen } from "@/components/icons";
+import { Activity, Pencil, Trash2 } from "lucide-react";
+import { Cube, Calendar, UserPen, VerticalDots } from "@/components/icons";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,6 +20,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Checkbox } from "@/components/ui/checkbox";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { getCategoryIcon } from "@/lib/icons-map";
 import { cn } from "@/lib/utils";
 import type { CategoryWithCount } from "@/lib/data/categories";
@@ -35,7 +36,7 @@ interface CategoriesTableProps {
 
 const cellStyles = {
   base: "flex items-center h-9 border-b-[0.5px] border-r-[0.5px] border-border-base transition-colors duration-100",
-  category: "px-[0.875rem] border-l-[0.5px]",
+  category: "px-[0.875rem]",
   default: "px-3.5",
   status: "px-[0.375rem] border-r-0",
   actions: "p-0 justify-center border-r-0",
@@ -239,7 +240,7 @@ export function CategoriesTable({
                 className="size-5 rounded-[6px] flex items-center justify-center cursor-pointer transition-colors duration-100 hover:bg-gray-200 active:bg-gray-200"
                 onClick={(e) => e.stopPropagation()}
               >
-                <MoreHorizontal className="size-3 text-soft" />
+                <VerticalDots className="size-3 text-soft" />
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
@@ -286,7 +287,7 @@ export function CategoriesTable({
 
   const headerStyles = {
     base: "flex items-center h-10 border-t-[0.5px] border-b-[0.5px] border-r-[0.5px] border-border-base sub-2xs text-soft font-medium",
-    category: "px-[0.875rem] border-l-[0.5px]",
+    category: "px-[0.875rem]",
     default: "px-3.5",
     status: "px-3.5 border-r-0",
     actions: "p-0 border-r-0",
@@ -294,7 +295,7 @@ export function CategoriesTable({
 
   if (data.length === 0) {
     return (
-      <div className="w-full overflow-x-auto">
+      <ScrollArea className="w-full">
         <div className={cn("grid min-w-full", GRID_COLS)}>
           <div
             className={cn(
@@ -331,12 +332,13 @@ export function CategoriesTable({
         <div className="p-8 text-center">
           <p className="text-soft">No categories found</p>
         </div>
-      </div>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
     );
   }
 
   return (
-    <div className="w-full overflow-x-auto">
+    <ScrollArea className="w-full">
       <div className={cn("grid min-w-full", GRID_COLS)}>
         {table.getHeaderGroups().map((headerGroup) => (
           <div
@@ -376,6 +378,7 @@ export function CategoriesTable({
           ))}
         </div>
       </div>
-    </div>
+      <ScrollBar orientation="horizontal" />
+    </ScrollArea>
   );
 }
